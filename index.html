@@ -114,10 +114,10 @@
                         <div class="difficulty-selection">
                             <label class="form-label">Select Difficulty:</label>
                             <select id="difficulty-select" class="form-control">
-                                <option value="class-a">Class A Networks (1-octet masks: /8 to /15)</option>
-                                <option value="class-b">Class B Networks (2-octet masks: /16 to /23)</option>
-                                <option value="class-c">Class C Networks (3-octet masks: /24 to /30)</option>
-                                <option value="all">All Network Types (Random mask from /8 to /30)</option>
+                                <option value="class-a">/8 to /15</option>
+                                <option value="class-b">/16 to /23</option>
+                                <option value="class-c">/24 to /30</option>
+                                <option value="all">/8 to /30</option>
                             </select>
                         </div>
                         <div class="practice-controls">
@@ -191,9 +191,9 @@
                         <h2>CIDR Reference Chart</h2>
                         <div class="mask-type-selector">
                             <button class="btn btn--secondary active" data-mask-type="all">All Masks</button>
-                            <button class="btn btn--secondary" data-mask-type="1-octet">1-Octet Masks (/8-/15)</button>
-                            <button class="btn btn--secondary" data-mask-type="2-octet">2-Octet Masks (/16-/23)</button>
-                            <button class="btn btn--secondary" data-mask-type="3-octet">3-Octet Masks (/24-/30)</button>
+                            <button class="btn btn--secondary" data-mask-type="1-octet">/8-/15</button>
+                            <button class="btn btn--secondary" data-mask-type="2-octet">/16-/23</button>
+                            <button class="btn btn--secondary" data-mask-type="3-octet">/24-/30</button>
                         </div>
                         <div class="table-container">
                             <table class="cidr-table">

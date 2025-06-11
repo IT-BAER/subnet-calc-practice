@@ -47,7 +47,6 @@ class SubnetCalculator {
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
         });
-        document.getElementById('calculate-btn').addEventListener('click', () => this.calculate());
         document.getElementById('ip-address').addEventListener('input', () => this.calculate());
         document.getElementById('subnet-mask').addEventListener('input', () => this.calculate());
         document.getElementById('new-problem-btn').addEventListener('click', () => this.generateNewProblem());

@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Subnet Calculator - Magic Number Method</title>
+    <title>IP Subnet Calculator & Practice Tool</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="container">
         <header class="header">
             <h1>IP Subnet Calculator</h1>
-            <p class="subtitle">Master the Magic Number Method for CompTIA Network+ Certification</p>
+            <p class="subtitle">A tool for calculating and practicing IP subnetting using the "Magic Number" method.</p>
         </header>
 
         <nav class="tab-nav">
@@ -19,30 +20,25 @@
             <button class="tab-btn" data-tab="reference">Reference</button>
         </nav>
 
-        <!-- Calculator Mode Tab -->
-        <div class="tab-content active" id="calculator-tab">
-            <div class="calculator-section">
+        <main>
+            <!-- Calculator Tab -->
+            <section id="calculator-tab" class="tab-content active calculator-section">
                 <div class="card">
                     <div class="card__body">
-                        <h2>IP Subnet Calculator</h2>
                         <div class="input-section">
                             <div class="form-group">
-                                <label class="form-label" for="ip-address">IP Address</label>
-                                <input type="text" id="ip-address" class="form-control" placeholder="192.168.1.100" value="165.245.77.14">
+                                <label for="ip-address" class="form-label">IP Address</label>
+                                <input type="text" id="ip-address" class="form-control font-mono" placeholder="e.g., 192.168.1.100">
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="subnet-mask">Subnet Mask</label>
-                                <input type="text" id="subnet-mask" class="form-control" placeholder="255.255.255.0 or /24" value="255.255.240.0">
+                                <label for="subnet-mask" class="form-label">Subnet Mask (CIDR or Dotted Decimal)</label>
+                                <input type="text" id="subnet-mask" class="form-control font-mono" placeholder="e.g., /24 or 255.255.255.0">
                             </div>
-                            <button class="btn btn--primary" id="calculate-btn">Calculate</button>
+                            <button id="calculate-btn" class="btn btn--primary">Calculate</button>
                         </div>
-                    </div>
-                </div>
-
-                <div class="results-container" id="results-container" style="display: none;">
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>Subnet Information</h3>
+                        
+                        <div id="results-container" class="results-container hidden">
+                            <h3 class="mb-16">Subnet Information</h3>
                             <div class="results-grid">
                                 <div class="result-item">
                                     <span class="result-label">Subnet ID (Network):</span>
@@ -61,6 +57,10 @@
                                     <span class="result-value" id="last-host"></span>
                                 </div>
                                 <div class="result-item">
+                                    <span class="result-label">Subnet Mask:</span>
+                                    <span class="result-value" id="subnet-mask-display"></span>
+                                </div>
+                                <div class="result-item">
                                     <span class="result-label">Wildcard Mask:</span>
                                     <span class="result-value" id="wildcard-mask"></span>
                                 </div>
@@ -76,125 +76,76 @@
                                     <span class="result-label">Magic Number:</span>
                                     <span class="result-value" id="magic-number"></span>
                                 </div>
-                                <div class="result-item">
-                                    <span class="result-label">Interesting Octet:</span>
-                                    <span class="result-value" id="interesting-octet-display"></span>
-                                </div>
-                                <div class="result-item">
-                                    <span class="result-label">Mask Type:</span>
-                                    <span class="result-value" id="mask-type"></span>
-                                </div>
+                            </div>
+
+                            <div class="method-steps" id="method-steps-container">
+                                <h4 class="mt-24 mb-16">Magic Number Method Steps</h4>
+                                <div id="method-steps"></div>
+                            </div>
+                             <div class="binary-representation mt-24">
+                                <h4 class="mb-16">Binary Representation</h4>
+                                <div id="binary-display"></div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>Magic Number Method Steps</h3>
-                            <div id="method-steps"></div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>Binary Representation</h3>
-                            <div id="binary-display"></div>
-                        </div>
+                        <div id="error-message" class="status status--error mt-16 hidden"></div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- Practice Mode Tab -->
-        <div class="tab-content" id="practice-tab">
-            <div class="practice-section">
+            <!-- Practice Tab -->
+            <section id="practice-tab" class="tab-content practice-section">
                 <div class="card">
                     <div class="card__body">
-                        <h2>Practice Mode</h2>
-                        <div class="difficulty-selection">
-                            <label class="form-label">Select Difficulty:</label>
-                            <select id="difficulty-select" class="form-control">
-                                <option value="class-a">/8 to /15</option>
-                                <option value="class-b">/16 to /23</option>
-                                <option value="class-c">/24 to /30</option>
-                                <option value="all">/8 to /30</option>
-                            </select>
-                        </div>
                         <div class="practice-controls">
-                            <button class="btn btn--primary" id="new-problem-btn">Generate New Problem</button>
-                            <div class="score-display">
-                                Score: <span id="score">0</span> / <span id="total-attempts">0</span>
+                            <div class="difficulty-selection">
+                                <label for="difficulty-select" class="form-label">Select Difficulty:</label>
+                                <select id="difficulty-select" class="form-control">
+                                    <option value="class-c">/24 to /30 (Easy)</option>
+                                    <option value="class-b">/16 to /23 (Medium)</option>
+                                    <option value="class-a">/8 to /15 (Hard)</option>
+                                    <option value="all">/8 to /30 (All)</option>
+                                </select>
                             </div>
+                            <button id="new-problem-btn" class="btn btn--primary">Generate New Problem</button>
+                            <div class="score-display">Score: <span id="score">0</span> / <span id="total-attempts">0</span></div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="practice-problem" id="practice-problem" style="display: none;">
-                    <div class="card">
-                        <div class="card__body">
-                            <h3>Practice Problem</h3>
+                        
+                        <div id="practice-problem" class="practice-problem hidden">
+                            <h3 class="mb-16">Practice Problem</h3>
                             <div class="problem-display">
-                                <p>IP Address: <strong id="practice-ip"></strong></p>
-                                <p>Subnet Mask: <strong id="practice-mask"></strong></p>
-                                <p>Mask Type: <strong id="practice-mask-type"></strong></p>
+                                <p>IP Address: <strong id="practice-ip" class="font-mono"></strong></p>
+                                <p>Subnet Mask: <strong id="practice-mask" class="font-mono"></strong></p>
                             </div>
-                            
-                            <div class="practice-inputs">
+                            <div class="practice-inputs" id="practice-inputs">
                                 <div class="form-group">
-                                    <label class="form-label">Subnet ID (Network Address):</label>
-                                    <input type="text" id="answer-subnet-id" class="form-control" placeholder="192.168.1.0">
+                                    <label for="practice-subnet-id" class="form-label">Subnet ID (Network Address):</label>
+                                    <input type="text" id="practice-subnet-id" class="form-control" placeholder="e.g., 192.168.1.0">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Broadcast Address:</label>
-                                    <input type="text" id="answer-broadcast" class="form-control" placeholder="192.168.1.255">
+                                    <label for="practice-broadcast" class="form-label">Broadcast Address:</label>
+                                    <input type="text" id="practice-broadcast" class="form-control" placeholder="e.g., 192.168.1.255">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">First Usable Host:</label>
-                                    <input type="text" id="answer-first-host" class="form-control" placeholder="192.168.1.1">
+                                    <label for="practice-first-host" class="form-label">First Usable Host:</label>
+                                    <input type="text" id="practice-first-host" class="form-control" placeholder="e.g., 192.168.1.1">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Last Usable Host:</label>
-                                    <input type="text" id="answer-last-host" class="form-control" placeholder="192.168.1.254">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Wildcard Mask:</label>
-                                    <input type="text" id="answer-wildcard" class="form-control" placeholder="0.0.0.255">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Number of Usable Hosts:</label>
-                                    <input type="text" id="answer-hosts" class="form-control" placeholder="254">
+                                    <label for="practice-last-host" class="form-label">Last Usable Host:</label>
+                                    <input type="text" id="practice-last-host" class="form-control" placeholder="e.g., 192.168.1.254">
                                 </div>
                             </div>
-                            
-                            <button class="btn btn--primary" id="check-answers-btn">Check Answers</button>
-                        </div>
-                    </div>
-
-                    <div class="feedback-section" id="feedback-section" style="display: none;">
-                        <div class="card">
-                            <div class="card__body">
-                                <h3>Feedback</h3>
-                                <div id="feedback-content"></div>
-                                <div class="correct-answers" id="correct-answers"></div>
-                            </div>
+                            <button id="check-answers-btn" class="btn btn--secondary btn--full-width">Check Answers</button>
+                            <div id="feedback-section" class="feedback-section mt-16"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- Reference Tab -->
-        <div class="tab-content" id="reference-tab">
-            <div class="reference-section">
-                <div class="card">
+            <!-- Reference Tab -->
+            <section id="reference-tab" class="tab-content reference-section">
+                 <div class="card">
                     <div class="card__body">
-                        <h2>CIDR Reference Chart</h2>
-                        <div class="mask-type-selector">
-                            <button class="btn btn--secondary active" data-mask-type="all">All Masks</button>
-                            <button class="btn btn--secondary" data-mask-type="1-octet">/8-/15</button>
-                            <button class="btn btn--secondary" data-mask-type="2-octet">/16-/23</button>
-                            <button class="btn btn--secondary" data-mask-type="3-octet">/24-/30</button>
-                        </div>
+                        <h3 class="mb-16">CIDR Reference Chart</h3>
                         <div class="table-container">
                             <table class="cidr-table">
                                 <thead>
@@ -203,76 +154,18 @@
                                         <th>Subnet Mask</th>
                                         <th>Wildcard Mask</th>
                                         <th>Usable Hosts</th>
-                                        <th>Magic Number</th>
-                                        <th>Mask Type</th>
                                     </tr>
                                 </thead>
                                 <tbody id="cidr-table-body">
+                                    <!-- Populated by JS -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <div class="card">
-                    <div class="card__body">
-                        <h2>Magic Number Method Guide</h2>
-                        <div class="method-guide">
-                            <h3>Step-by-Step Process:</h3>
-                            <ol>
-                                <li><strong>Identify the "Interesting Octet":</strong> Find the octet in the subnet mask that is neither 0 nor 255.</li>
-                                <li><strong>Calculate the Magic Number:</strong> Magic Number = 256 - Interesting Octet Value</li>
-                                <li><strong>Apply the Rules:</strong>
-                                    <ul>
-                                        <li>If mask octet = 255: Copy the IP address octet value exactly</li>
-                                        <li>If mask octet = 0: Use 0 for subnet ID, 255 for broadcast address</li>
-                                        <li>For the interesting octet: Use magic number multiples</li>
-                                    </ul>
-                                </li>
-                                <li><strong>Find the Subnet Range:</strong> Determine which magic number multiple the IP address falls into</li>
-                                <li><strong>Calculate Addresses:</strong>
-                                    <ul>
-                                        <li>Subnet ID: Start of the range</li>
-                                        <li>Broadcast: End of the range</li>
-                                        <li>First Host: Subnet ID + 1</li>
-                                        <li>Last Host: Broadcast - 1</li>
-                                    </ul>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card__body">
-                        <h2>Example Problems</h2>
-                        <div class="examples">
-                            <div class="example-item">
-                                <h4>1-Octet Mask Example</h4>
-                                <p><strong>IP:</strong> 10.180.122.244</p>
-                                <p><strong>Mask:</strong> 255.248.0.0 (/13)</p>
-                                <p><strong>Magic Number:</strong> 256 - 248 = 8</p>
-                                <p><strong>Result:</strong> Subnet 10.176.0.0 - 10.183.255.255</p>
-                            </div>
-                            <div class="example-item">
-                                <h4>2-Octet Mask Example</h4>
-                                <p><strong>IP:</strong> 165.245.77.14</p>
-                                <p><strong>Mask:</strong> 255.255.240.0 (/20)</p>
-                                <p><strong>Magic Number:</strong> 256 - 240 = 16</p>
-                                <p><strong>Result:</strong> Subnet 165.245.64.0 - 165.245.79.255</p>
-                            </div>
-                            <div class="example-item">
-                                <h4>3-Octet Mask Example</h4>
-                                <p><strong>IP:</strong> 172.16.24.133</p>
-                                <p><strong>Mask:</strong> 255.255.255.224 (/27)</p>
-                                <p><strong>Magic Number:</strong> 256 - 224 = 32</p>
-                                <p><strong>Result:</strong> Subnet 172.16.24.128 - 172.16.24.159</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
 
     <script src="app.js"></script>

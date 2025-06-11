@@ -161,6 +161,7 @@ p { margin: 0 0 var(--space-16) 0; }
 .form-control {
     display: block;
     width: 100%;
+	max-width: fit-content;
     padding: var(--space-8) var(--space-12);
     font-size: var(--font-size-base);
     line-height: 1.5;
@@ -260,8 +261,8 @@ select.form-control {
 
 /* Practice Section */
 .practice-section { max-width: 800px; margin: 0 auto; }
-.practice-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-16); margin-bottom: var(--space-24); }
-.score-display { font-weight: var(--font-weight-semibold); color: var(--color-primary); }
+.practice-controls { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--space-16); margin-bottom: var(--space-24); }
+.score-display { font-weight: var(--font-weight-semibold); color: var(--color-primary); text-align: right; }
 .practice-problem { margin-top: var(--space-32); }
 .problem-display { background: var(--color-secondary); padding: var(--space-16); border-radius: var(--radius-base); margin-bottom: var(--space-24); }
 .problem-display p { margin: var(--space-8) 0; font-size: var(--font-size-lg); }

@@ -1,10 +1,10 @@
 # IP Subnet Calculator \& Practice Tool
 
-### (based on [Professor Messer's Network+ Training Curse](https://www.youtube.com/watch?v=k7IOn3TiUc8&list=PLG49S3nxzAnl_tQe3kvnmeMid0mjF8Le8))
+### (based on <a href="https://www.youtube.com/watch?v=k7IOn3TiUc8&list=PLG49S3nxzAnl_tQe3kvnmeMid0mjF8Le8" target="_blank" rel="noopener noreferrer">Professor Messer's Network+ Training Curse</a>)
 
 A comprehensive, interactive web application for calculating and practicing IP subnetting. This tool is designed for network students, professionals, and anyone looking to sharpen their networking skills. It features a calculator, a practice mode with scoring, and a detailed reference chart, all built with a clean, responsive interface that includes a dark mode.
 
-**[Website](https://it-baer.github.io/subnet-calc-practice/)** 👈
+**<a href="https://it-baer.github.io/subnet-calc-practice/" target="_blank" rel="noopener noreferrer">Website</a>** 👈
 
 ## About The Project
 
